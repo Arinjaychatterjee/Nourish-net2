@@ -1,4 +1,5 @@
-import { PlayCircle, Leaf, Truck, HandHeart, MapPin } from 'lucide-react'
+import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User } from 'lucide-react'
+import MapComp from '../components/MapComp'
 
 export default function HomePage(){
   return (
@@ -78,7 +79,9 @@ export default function HomePage(){
           {[1,2,3].map(i => (
             <div key={i} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-neutral-200" />
+                <div className="h-12 w-12 rounded-full bg-neutral-200 flex justify-center items-center" >
+                  <User/>
+                </div>
                 <div>
                   <div className="font-semibold">Partner Chef #{i}</div>
                   <div className="text-neutral-600 text-sm">Kolkata, WB</div>
@@ -91,13 +94,8 @@ export default function HomePage(){
       </section>
 
       {/* Live Map (stylized placeholder) */}
-      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16 mb-16">
-        <h2 className="font-display text-2xl sm:text-3xl font-bold">Live Kolkata map</h2>
-        <div className="mt-4 relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-4">
-          <div className="aspect-video w-full rounded-xl bg-[url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png')] bg-neutral-100 flex items-center justify-center text-neutral-500">
-            <MapPin className="text-[var(--nb-orange)] mr-1"/> Recent donation hotspots
-          </div>
-        </div>
+      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16 mb-1">
+        <MapComp/>
       </section>
     </div>
   )

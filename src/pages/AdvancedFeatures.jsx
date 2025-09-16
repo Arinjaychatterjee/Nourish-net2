@@ -1,6 +1,33 @@
-import { Bell, Sprout } from 'lucide-react'
+import { Bell, Sprout, Weight } from 'lucide-react'
+import assets from '../assets/assets'
 
 export default function AdvancedFeatures(){
+  const ingredients = [
+    {
+      item: 'Rice',
+      amount: 50+'kg',
+      price: 1650,
+      banner:assets.rice
+    },
+    {
+      item: 'dal',
+      amount: 20+'kg',
+      price: 750,
+      banner:assets.dal
+    },
+    {
+      item: 'Potato',
+      amount: 10+'kg',
+      price: 400,
+      banner:assets.potato
+    },
+    {
+      item: 'Green Onion',
+      amount: 10+'kg',
+      price: 370,
+      banner:assets.green_oni
+    }
+  ]
   return (
     <div className="container-px max-w-7xl mx-auto py-8">
       <h1 className="font-display text-2xl font-bold">Advanced Features</h1>
@@ -30,12 +57,14 @@ export default function AdvancedFeatures(){
         </div>
         <p className="text-[#6b613f] text-sm mt-1">Buy/sell bulk produce from farmers and wholesalers.</p>
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[1,2,3,4].map(i => (
+          {ingredients.map((item,i) => (
             <div key={i} className="rounded-2xl border border-[#e9e2d3] bg-white p-4">
-              <div className="h-24 rounded-xl bg-[#eee7d8]"/>
-              <div className="mt-2 font-semibold text-[#4a432b]">Rice (50kg)</div>
-              <div className="text-sm text-[#6b613f]">Rs. 1,650</div>
-              <button className="mt-2 w-full rounded-xl border border-[#d9d2c4] px-3 py-2 text-sm hover:bg-[#f4efe5]">View</button>
+              <div className="h-24 rounded-xl bg-red-500 overflow-hidden">
+                <img src={item.banner} alt="rice" className='w-full h-full object-cover'/>
+              </div>
+              <div className="mt-2 font-semibold text-[#4a432b]">{item.item}</div>
+              <div className="text-sm text-[#6b613f]">Rs {item.price}</div>
+              <button className="mt-2 w-full rounded-xl border border-[#d9d2c4] px-3 py-2 text-sm hover:bg-[#f4efe5] cursor-pointer" >View</button>
             </div>
           ))}
         </div>

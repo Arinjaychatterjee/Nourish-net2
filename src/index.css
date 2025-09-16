@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "leaflet/dist/leaflet.css";
 :root {
   --nb-green: #2E7D32;
   --nb-orange: #FF8F00;

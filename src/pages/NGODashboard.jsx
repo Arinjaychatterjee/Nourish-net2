@@ -1,5 +1,6 @@
 import { MapPin, Filter, Search, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
+import MapComp from '../components/MapComp'
 
 export default function NGODashboard(){
   const [selected, setSelected] = useState(null)
@@ -21,10 +22,8 @@ export default function NGODashboard(){
 
       <div className="mt-4 grid lg:grid-cols-3 gap-4">
         {/* Map */}
-        <div className="lg:col-span-2 rounded-2xl border border-neutral-200 bg-white p-3">
-          <div className="aspect-[16/10] w-full rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-500">
-            <MapPin className="text-[var(--nb-orange)] mr-1"/> Interactive Kolkata map placeholder
-          </div>
+        <div className="lg:col-span-2 rounded-2xl border border-neutral-200 bg-white p-3 overflow-hidden z-1">
+          <MapComp/>
         </div>
 
         {/* List */}
