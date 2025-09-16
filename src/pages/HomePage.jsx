@@ -1,8 +1,6 @@
 import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User } from 'lucide-react'
-import MapComp from '../components/MapComp'
-
-import { PlayCircle, Leaf, Truck, HandHeart, MapPin } from 'lucide-react'
 import { useState } from 'react'
+import MapComp from '../components/MapComp'
 
 export default function HomePage(){
   const [donateOpen, setDonateOpen] = useState(false)
