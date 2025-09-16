@@ -1,7 +1,7 @@
 import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User } from 'lucide-react'
 import MapComp from '../components/MapComp'
 
-import { PlayCircle, Leaf, Truck, HandHeart, MapPin } from 'lucide-react'
+// duplicate import removed
 import { useState } from 'react'
 
 export default function HomePage(){
