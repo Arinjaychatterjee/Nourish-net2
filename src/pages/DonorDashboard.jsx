@@ -3,6 +3,41 @@ import { useState } from 'react'
 
 export default function DonorDashboard(){
   const [open, setOpen] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [form, setForm] = useState({
+    foodName: '',
+    quantity: '',
+    foodType: '',
+    pickupLocation: '',
+    readyBy: '',
+    bestBefore: '',
+    notes: '',
+  })
+  const [errors, setErrors] = useState({})
+
+  const updateField = (field) => (e) => {
+    setForm(prev => ({...prev, [field]: e.target.value}))
+    setErrors(prev => ({...prev, [field]: ''}))
+  }
+
+  const validate = () => {
+    const next = {}
+    if(!form.foodName.trim()) next.foodName = 'Food name is required'
+    const qty = Number(form.quantity)
+    if(!form.quantity || Number.isNaN(qty) || qty <= 0) next.quantity = 'Enter a valid quantity'
+    if(!form.foodType.trim()) next.foodType = 'Food type is required'
+    if(!form.pickupLocation.trim()) next.pickupLocation = 'Pickup location is required'
+    if(!form.readyBy.trim()) next.readyBy = 'Ready by time is required'
+    if(!form.bestBefore.trim()) next.bestBefore = 'Best before time is required'
+    setErrors(next)
+    return Object.keys(next).length === 0
+  }
+
+  const onPublish = () => {
+    if(!validate()) return
+    setOpen(false)
+    setConfirmOpen(true)
+  }
 
   return (
     <div className="container-px max-w-7xl mx-auto py-8">
@@ -57,29 +92,52 @@ export default function DonorDashboard(){
             <div className="p-5 grid gap-4">
               <div className="text-sm text-neutral-600">Step 1 · Food Details</div>
               <div className="grid gap-3">
-                <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Food name (e.g., Veg Pulao)"/>
+                <input value={form.foodName} onChange={updateField('foodName')} className={`rounded-xl border px-3 py-2 ${errors.foodName? 'border-red-500' : 'border-neutral-300'}`} placeholder="Food name (e.g., Veg Pulao)"/>
+                {errors.foodName && <div className="text-xs text-red-600">{errors.foodName}</div>}
                 <div className="grid grid-cols-2 gap-3">
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Quantity (servings)"/>
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Food type (veg/non-veg)"/>
+                  <input value={form.quantity} onChange={updateField('quantity')} className={`rounded-xl border px-3 py-2 ${errors.quantity? 'border-red-500' : 'border-neutral-300'}`} placeholder="Quantity (servings)"/>
+                  <input value={form.foodType} onChange={updateField('foodType')} className={`rounded-xl border px-3 py-2 ${errors.foodType? 'border-red-500' : 'border-neutral-300'}`} placeholder="Food type (veg/non-veg)"/>
                 </div>
-                <textarea className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Allergens/Notes"></textarea>
+                {errors.quantity && <div className="text-xs text-red-600">{errors.quantity}</div>}
+                {errors.foodType && <div className="text-xs text-red-600">{errors.foodType}</div>}
+                <textarea value={form.notes} onChange={updateField('notes')} className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Allergens/Notes"></textarea>
               </div>
               <div className="text-sm text-neutral-600">Step 2 · Logistics</div>
               <div className="grid gap-3">
-                <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Pickup location"/>
+                <input value={form.pickupLocation} onChange={updateField('pickupLocation')} className={`rounded-xl border px-3 py-2 ${errors.pickupLocation? 'border-red-500' : 'border-neutral-300'}`} placeholder="Pickup location"/>
                 <div className="grid grid-cols-2 gap-3">
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Ready by (time)"/>
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Best before (time)"/>
+                  <input value={form.readyBy} onChange={updateField('readyBy')} className={`rounded-xl border px-3 py-2 ${errors.readyBy? 'border-red-500' : 'border-neutral-300'}`} placeholder="Ready by (time)"/>
+                  <input value={form.bestBefore} onChange={updateField('bestBefore')} className={`rounded-xl border px-3 py-2 ${errors.bestBefore? 'border-red-500' : 'border-neutral-300'}`} placeholder="Best before (time)"/>
                 </div>
               </div>
+              {(errors.pickupLocation || errors.readyBy || errors.bestBefore) && (
+                <div className="text-xs text-red-600">
+                  {errors.pickupLocation && <div>{errors.pickupLocation}</div>}
+                  {errors.readyBy && <div>{errors.readyBy}</div>}
+                  {errors.bestBefore && <div>{errors.bestBefore}</div>}
+                </div>
+              )}
               <div className="text-sm text-neutral-600">Step 3 · Confirm</div>
               <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3 text-sm text-neutral-700">
                 We will notify nearby NGOs and Food Runners instantly.
               </div>
               <div className="flex justify-end gap-2 pt-2">
                 <button onClick={()=>setOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Cancel</button>
-                <button className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold">Publish Donation</button>
+                <button onClick={onPublish} className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold">Publish Donation</button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {confirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="alertdialog" aria-modal="true">
+          <div className="w-full sm:max-w-sm rounded-2xl bg-white shadow-lg p-6 text-center">
+            <div className="text-lg font-semibold">Order submitted</div>
+            <p className="text-sm text-neutral-600 mt-2">Your donation has been published successfully.</p>
+            <div className="mt-4 flex justify-center">
+              <button onClick={()=>setConfirmOpen(false)} className="rounded-xl bg-[var(--nb-green)] text-white px-4 py-2 text-sm font-semibold">OK</button>
             </div>
           </div>
         </div>
@@ -87,5 +145,6 @@ export default function DonorDashboard(){
     </div>
   )
 }
+
 
 
