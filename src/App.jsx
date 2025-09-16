@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home } from 'lucide-react'
+import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home, User } from 'lucide-react'
 import HomePage from './pages/HomePage.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
 import NGODashboard from './pages/NGODashboard.jsx'
 import AdvancedFeatures from './pages/AdvancedFeatures.jsx'
 import Login from './pages/Login.jsx'
+import Profile from './pages/Profile.jsx'
 
 function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -28,6 +29,9 @@ function Navbar() {
                 <NavLink to="/donor" className={linkClass}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass}><HandHeart size={18}/> NGO</NavLink>
                 <NavLink to="/advanced" className={linkClass}><Award size={18}/> Advanced</NavLink>
+                <NavLink to="/profile" className={'bg-gray-500/40 rounded-full p-3'}>
+                  <User/>
+                </NavLink>
               </div>
               <button
                 className="sm:hidden p-2 rounded-xl border border-neutral-200"
@@ -113,6 +117,7 @@ function App() {
             <Route path="/donor" element={<DonorDashboard />} />
             <Route path="/ngo" element={<NGODashboard />} />
             <Route path="/advanced" element={<AdvancedFeatures />} />
+            <Route path="/profile" element={<Profile/>} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </main>
