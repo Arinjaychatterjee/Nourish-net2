@@ -34,7 +34,7 @@ export default function NGODashboard(){
           </div>
           <div className="mt-3 divide-y divide-neutral-200">
             {donations.map(d=> (
-              <button key={d.id} onClick={()=>setSelected(d)} className="w-full text-left hover:bg-neutral-50 rounded-xl p-3">
+              <button key={d.id} onClick={()=>setSelected(d)} className="w-full text-left hover:bg-neutral-50 rounded-xl p-3 cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-semibold">{d.title}</div>
@@ -55,7 +55,7 @@ export default function NGODashboard(){
           <div className="h-full w-full sm:max-w-md bg-white shadow-xl p-5">
             <div className="flex items-center justify-between">
               <div className="font-display font-bold">{selected.title}</div>
-              <button onClick={()=>setSelected(null)} className="text-neutral-500 hover:text-neutral-800">✕</button>
+              <button onClick={()=>setSelected(null)} className="text-neutral-500 hover:text-neutral-800 cursor-pointer">✕</button>
             </div>
             <div className="mt-3 text-sm text-neutral-700">
               <div>{selected.qty}</div>
@@ -63,7 +63,7 @@ export default function NGODashboard(){
               <div className="mt-1">Pickup: {selected.time}</div>
               <div className="mt-3 rounded-xl bg-neutral-50 border border-neutral-200 p-3">Prepared by verified donor. Properly packed and labeled.</div>
             </div>
-            <button className="mt-4 w-full rounded-2xl bg-[var(--nb-orange)] text-white px-4 py-3 text-sm font-semibold">CLAIM DONATION</button>
+            <button className="mt-4 w-full rounded-2xl bg-[var(--nb-orange)] text-white px-4 py-3 text-sm font-semibold cursor-pointer">CLAIM DONATION</button>
           </div>
         </div>
       )}

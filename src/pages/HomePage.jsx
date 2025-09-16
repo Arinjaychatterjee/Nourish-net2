@@ -30,7 +30,9 @@ export default function HomePage(){
             <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster="/public/kolkata.jpg">
               <source src="" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent">
+              <img src="/homepage_banner.png" alt="homepagebanner" className='w-full h-full object-cover'/>
+            </div>
           </div>
         </div>
       </section>
