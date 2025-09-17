@@ -23,6 +23,8 @@ export default function SignUp() {
             emailRedirectTo:`${window.location.origin}/login?verified=true`
           }
         });
+        
+        //redirect to a loading state 
       } catch (error) {
         console.log(error);
       }
