@@ -1,12 +1,14 @@
-import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route , useLocation, NavLink} from 'react-router-dom';
 import { useState } from 'react'
 import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home, User } from 'lucide-react'
 import HomePage from './pages/HomePage.jsx'
+import Landing from './pages/Landing.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
 import NGODashboard from './pages/NGODashboard.jsx'
 import AdvancedFeatures from './pages/AdvancedFeatures.jsx'
 import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
+import LearnMore from './pages/learnmore.jsx';
 
 function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -26,6 +28,7 @@ function Navbar() {
             <>
               <div className="hidden sm:flex items-center gap-6 text-sm">
                 <NavLink to="/" className={linkClass}><Home size={18}/> Home</NavLink>
+                <NavLink to="/landing" className={linkClass}><Award size={18}/> Landing</NavLink>
                 <NavLink to="/donor" className={linkClass}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass}><HandHeart size={18}/> NGO</NavLink>
                 <NavLink to="/advanced" className={linkClass}><Award size={18}/> Advanced</NavLink>
@@ -70,6 +73,7 @@ function Navbar() {
             <div className="p-2">
               <nav className="grid gap-1 text-sm">
                 <NavLink to="/" className={linkClass} onClick={close}><Home size={18}/> Home</NavLink>
+                <NavLink to="/landing" className={linkClass} onClick={close}><Award size={18}/> Landing</NavLink>
                 <NavLink to="/donor" className={linkClass} onClick={close}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass} onClick={close}><HandHeart size={18}/> NGO</NavLink>
                 <NavLink to="/advanced" className={linkClass} onClick={close}><Award size={18}/> Advanced</NavLink>
@@ -108,22 +112,24 @@ function Footer() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <div className="min-h-dvh flex flex-col">
         <Navbar />
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/landing" element={<Landing />} />
             <Route path="/donor" element={<DonorDashboard />} />
             <Route path="/ngo" element={<NGODashboard />} />
             <Route path="/advanced" element={<AdvancedFeatures />} />
             <Route path="/profile" element={<Profile/>} />
             <Route path="/login" element={<Login />} />
+            <Route path="/learn-more" element={<LearnMore />} />
           </Routes>
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   )
 }
 

@@ -1,4 +1,4 @@
-import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User } from 'lucide-react'
+import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User, ShieldCheck, Eye, Zap } from 'lucide-react'
 import { useState } from 'react'
 import MapComp from '../components/MapComp'
 
@@ -37,7 +37,7 @@ export default function HomePage(){
               <span className="text-amber-600">✨</span>
             </div>
             <div className="mt-6 flex gap-3">
-              <a href="#donate" onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nb-green)]">List a Donation</a>
+              <a href="#donate" onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nb-green)]">Donate Now</a>
               <a href="#how" className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 bg-white text-neutral-900 px-5 py-3 text-sm font-semibold hover:bg-neutral-50">
                 <PlayCircle className="mr-2" size={18}/> How it works
               </a>
@@ -175,6 +175,26 @@ export default function HomePage(){
         </div>
       </section>
 
+      {/* Features */}
+      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16">
+        <h2 className="font-display text-2xl sm:text-3xl font-bold">Why donate with us</h2>
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            {icon: ShieldCheck, title: 'Secure Payments', desc: 'Trusted and safe donation experience.'},
+            {icon: Eye, title: 'Transparent Impact', desc: 'Track how your donation helps.'},
+            {icon: Zap, title: 'Simple & Fast', desc: 'Donate in under a minute.'},
+          ].map((f)=> (
+            <div key={f.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--nb-green)]/10 text-[var(--nb-green)]">
+                <f.icon size={18} />
+              </div>
+              <div className="mt-3 font-semibold">{f.title}</div>
+              <p className="text-neutral-600 text-sm mt-1">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Impact */}
       <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16">
         <h2 className="font-display text-2xl sm:text-3xl font-bold">Our impact</h2>
@@ -210,6 +230,18 @@ export default function HomePage(){
               <p className="text-neutral-700 text-sm mt-3">“Together we ensure good food never goes to waste.”</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-8 sm:p-10 text-center shadow-sm">
+          <h3 className="font-display text-xl sm:text-2xl font-bold">Make a Difference with Every Donation</h3>
+          <p className="text-neutral-700 mt-2 max-w-2xl mx-auto">Join our community to reduce food waste and serve more meals across Kolkata.</p>
+          <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90">Donate Now</button>
+            <a href="/login" className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 bg-white text-neutral-900 px-5 py-3 text-sm font-semibold hover:bg-neutral-50">Sign up / Login</a>
+          </div>
         </div>
       </section>
 
