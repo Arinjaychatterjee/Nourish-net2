@@ -24,7 +24,7 @@ export default function Log_in() {
         });
 
         if (supabasedata) {
-          navigate("/");
+          navigate("/home");
           console.log(data);
         }
       } catch (error) {

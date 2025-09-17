@@ -24,6 +24,7 @@ function Navbar() {
   const location = useLocation()
   const isLogin = location.pathname === '/login'
   const isSignUp = location.pathname === '/signUp'
+  const isLanding = location.pathname === '/'
   return (
     <>
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-neutral-200">
@@ -32,11 +33,10 @@ function Navbar() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--nb-green)] text-white font-bold">NN</span>
             <span className="font-display text-lg font-bold text-[var(--nb-green)]">NourishNet</span>
           </div>
-          {!isLogin && !isSignUp && (
+          {!isLogin && !isSignUp && !isLanding && (
             <>
               <div className="hidden sm:flex items-center gap-6 text-sm">
-                <NavLink to="/" className={linkClass}><Home size={18}/> Home</NavLink>
-                <NavLink to="/landing" className={linkClass}><Award size={18}/> Landing</NavLink>
+                <NavLink to="/home" className={linkClass}><Home size={18}/> Home</NavLink>
                 <NavLink to="/donor" className={linkClass}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass}><HandHeart size={18}/> NGO</NavLink>
                 <NavLink to="/advanced" className={linkClass}><Award size={18}/> Advanced</NavLink>
@@ -59,7 +59,7 @@ function Navbar() {
       </header>
 
       {/* Mobile sidebar / shutter */}
-      {!isLogin && (
+      {!isLogin && !isSignUp && !isLanding && (
         <div className={`sm:hidden fixed inset-0 z-50 ${mobileOpen ? '' : 'pointer-events-none'}`}>
           {/* Overlay */}
           <div
@@ -80,8 +80,7 @@ function Navbar() {
             </div>
             <div className="p-2">
               <nav className="grid gap-1 text-sm">
-                <NavLink to="/" className={linkClass} onClick={close}><Home size={18}/> Home</NavLink>
-                <NavLink to="/landing" className={linkClass} onClick={close}><Award size={18}/> Landing</NavLink>
+                <NavLink to="/home" className={linkClass} onClick={close}><Home size={18}/> Home</NavLink>
                 <NavLink to="/donor" className={linkClass} onClick={close}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass} onClick={close}><HandHeart size={18}/> NGO</NavLink>
                 <NavLink to="/advanced" className={linkClass} onClick={close}><Award size={18}/> Advanced</NavLink>
@@ -127,9 +126,9 @@ function App() {
           <Routes>
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/login" element={<Log_in/>} />
-            <Route path="/landing" element={<Landing />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/learn-more" element={<LearnMore />} />
-              <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+              <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
               <Route path="/donor" element={<ProtectedRoute><DonorDashboard /></ProtectedRoute>} />
               <Route path="/ngo" element={<ProtectedRoute><NGODashboard /></ProtectedRoute>} />
               <Route path="/advanced" element={<ProtectedRoute><AdvancedFeatures /></ProtectedRoute>} />

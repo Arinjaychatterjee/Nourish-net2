@@ -12,7 +12,7 @@ const Profile = () => {
     if(error){
       console.error(error)
     }
-    navigate('/login')
+    navigate('/')
     // remove the token and go to the landing page
   }
   return (

@@ -22,13 +22,13 @@ const Landing = () => {
   return (
     <>
       <div className="landing-container">
-        <div className="hero-section bg-gradient-to-r from-green-400 to-blue-500 text-white py-20">
+        <div className="hero-section bg-gradient-to-br from-green-50 to-blue-50 text-gray-800 py-20">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-5xl font-bold mb-6">Make a Difference Today</h1>
-            <p className="text-xl mb-8">Support those in need with your contribution</p>
+            <h1 className="text-5xl font-bold mb-6 text-gray-800">Make a Difference Today</h1>
+            <p className="text-xl mb-8 text-gray-600">Support those in need with your contribution</p>
             <Link 
               to="/login" 
-              className="bg-white text-green-500 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+              className="bg-green-100 text-green-700 px-8 py-3 rounded-full font-semibold hover:bg-green-200 transition-colors border border-green-200"
             >
               Donate Now
             </Link>
@@ -40,13 +40,13 @@ const Landing = () => {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
                 to="/login" 
-                className="bg-green-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors"
+                className="bg-green-100 text-green-700 px-8 py-3 rounded-full font-semibold hover:bg-green-200 transition-colors border border-green-200"
               >
                 Login / Register
               </Link>
               <Link 
                 to="/learn-more" 
-                className="bg-gray-200 text-gray-800 px-8 py-3 rounded-full font-semibold hover:bg-gray-300 transition-colors"
+                className="bg-gray-100 text-gray-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors border border-gray-200"
               >
                 Learn More
               </Link>

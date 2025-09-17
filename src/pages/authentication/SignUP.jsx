@@ -25,7 +25,7 @@ export default function SignUp() {
         });
   
         if (supabasedata ) {
-          navigate("/");
+          navigate("/home");
           console.log(data);
         }
       } catch (error) {
