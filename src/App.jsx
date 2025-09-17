@@ -1,17 +1,24 @@
 import { BrowserRouter as Router, Routes, Route , useLocation, NavLink} from 'react-router-dom';
-import { useState } from 'react'
+import { useEffect,useState } from 'react'
 import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home, User } from 'lucide-react'
 import HomePage from './pages/HomePage.jsx'
 import Landing from './pages/Landing.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
 import NGODashboard from './pages/NGODashboard.jsx'
 import AdvancedFeatures from './pages/AdvancedFeatures.jsx'
-import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
+import ProtectedRoute from './pages/Protected.jsx'
+import { Global_Context } from './Context/ContextProvider.jsx'
+import SignUp from './pages/authentication/SignUP.jsx'
+import Log_in from './pages/authentication/Login.jsx'
 import LearnMore from './pages/learnmore.jsx';
 
 function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const {user} = Global_Context()
+  useEffect(()=>{
+   console.log(user)
+  },[])
   const close = () => setMobileOpen(false)
   const linkClass = ({isActive})=>`flex items-center gap-2 rounded-xl px-3 py-2 ${isActive? 'text-[var(--nb-green)] font-semibold bg-[var(--nb-green)]/5':'text-neutral-800 hover:text-[var(--nb-green)] hover:bg-neutral-50'}`
   const location = useLocation()
@@ -117,14 +124,15 @@ function App() {
         <Navbar />
         <main className="flex-1">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/login" element={<Log_in/>} />
             <Route path="/landing" element={<Landing />} />
-            <Route path="/donor" element={<DonorDashboard />} />
-            <Route path="/ngo" element={<NGODashboard />} />
-            <Route path="/advanced" element={<AdvancedFeatures />} />
-            <Route path="/profile" element={<Profile/>} />
-            <Route path="/login" element={<Login />} />
             <Route path="/learn-more" element={<LearnMore />} />
+              <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+              <Route path="/donor" element={<ProtectedRoute><DonorDashboard /></ProtectedRoute>} />
+              <Route path="/ngo" element={<ProtectedRoute><NGODashboard /></ProtectedRoute>} />
+              <Route path="/advanced" element={<ProtectedRoute><AdvancedFeatures /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
           </Routes>
         </main>
         <Footer />

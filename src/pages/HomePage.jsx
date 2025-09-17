@@ -43,10 +43,10 @@ export default function HomePage(){
               </a>
             </div>
           </div>
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-neutral-200">
-            <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster="/public/kolkata.jpg">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-red-200">
+            {/* <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster="/public/kolkata.jpg">
               <source src="" type="video/mp4" />
-            </video>
+            </video> */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent">
               <img src="/homepage_banner.png" alt="homepagebanner" className='w-full h-full object-cover'/>
             </div>
@@ -87,8 +87,8 @@ export default function HomePage(){
 
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Amount (INR)</label>
-                  <input value={amount} onChange={(e)=>setAmount(e.target.value)} type="number" min="1" required className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="e.g., 500" />
+                  <label className="text-sm font-medium text-neutral-800 ">Amount (INR)</label>
+                  <input value={amount} onChange={(e)=>setAmount(e.target.value)} type="number" min="1" required className="rounded-xl border border-neutral-300 px-3 py-2 sm:w-45" placeholder="e.g., 500" />
                 </div>
                 <div className="grid gap-2">
                   <label className="text-sm font-medium text-neutral-800">Frequency</label>
