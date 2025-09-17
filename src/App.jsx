@@ -23,6 +23,7 @@ function Navbar() {
   const linkClass = ({isActive})=>`flex items-center gap-2 rounded-xl px-3 py-2 ${isActive? 'text-[var(--nb-green)] font-semibold bg-[var(--nb-green)]/5':'text-neutral-800 hover:text-[var(--nb-green)] hover:bg-neutral-50'}`
   const location = useLocation()
   const isLogin = location.pathname === '/login'
+  const isSignUp = location.pathname === '/signUp'
   return (
     <>
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-neutral-200">
@@ -31,7 +32,7 @@ function Navbar() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--nb-green)] text-white font-bold">NN</span>
             <span className="font-display text-lg font-bold text-[var(--nb-green)]">NourishNet</span>
           </div>
-          {!isLogin && (
+          {!isLogin && !isSignUp && (
             <>
               <div className="hidden sm:flex items-center gap-6 text-sm">
                 <NavLink to="/" className={linkClass}><Home size={18}/> Home</NavLink>
