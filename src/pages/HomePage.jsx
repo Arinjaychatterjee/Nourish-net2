@@ -235,12 +235,11 @@ export default function HomePage(){
 
       {/* Call to Action */}
       <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16">
-        <div className="rounded-2xl border border-neutral-200 bg-white p-8 sm:p-10 text-center shadow-sm">
+           <div className="rounded-2xl border border-neutral-200 bg-white p-8 sm:p-10 text-center shadow-sm">
           <h3 className="font-display text-xl sm:text-2xl font-bold">Make a Difference with Every Donation</h3>
           <p className="text-neutral-700 mt-2 max-w-2xl mx-auto">Join our community to reduce food waste and serve more meals across Kolkata.</p>
           <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90">Donate Now</button>
-            <a href="/login" className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 bg-white text-neutral-900 px-5 py-3 text-sm font-semibold hover:bg-neutral-50">Sign up / Login</a>
           </div>
         </div>
       </section>

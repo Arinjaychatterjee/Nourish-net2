@@ -47,7 +47,6 @@ function Navbar() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--nb-green)] text-white font-bold">NN</span>
             <span className="font-display text-lg font-bold text-[var(--nb-green)]">NourishNet</span>
           </div>
-            
           { isSignedOut ? (
             <Link
               to="/signUp"
@@ -83,7 +82,7 @@ function Navbar() {
       </header>
 
       {/* Mobile sidebar / shutter */}
-      {!isLogin && (
+      {!isLogin && !isSignUp && !isLanding && (
         <div className={`sm:hidden fixed inset-0 z-50 ${mobileOpen ? '' : 'pointer-events-none'}`}>
           {/* Overlay */}
           <div
