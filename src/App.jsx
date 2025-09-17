@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route , useLocation, NavLink} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route , useLocation, NavLink, useNavigate, Link} from 'react-router-dom';
 import { useEffect,useState } from 'react'
-import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home, User } from 'lucide-react'
+import { Menu, UtensilsCrossed, HandHeart, MapPin, Award, Home, User, LogIn } from 'lucide-react'
 import HomePage from './pages/HomePage.jsx'
 import Landing from './pages/Landing.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
@@ -8,32 +8,54 @@ import NGODashboard from './pages/NGODashboard.jsx'
 import AdvancedFeatures from './pages/AdvancedFeatures.jsx'
 import Profile from './pages/Profile.jsx'
 import ProtectedRoute from './pages/Protected.jsx'
-import { Global_Context } from './Context/ContextProvider.jsx'
 import SignUp from './pages/authentication/SignUP.jsx'
 import Log_in from './pages/authentication/Login.jsx'
 import LearnMore from './pages/learnmore.jsx';
+import supabase from './config/supabase.js';
+import { Global_Context } from './Context/ContextProvider.jsx';
 
 function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const {user} = Global_Context()
+  const {setSignedOut,isSignedOut} = Global_Context()
+
+  const Navigate = useNavigate()
   useEffect(()=>{
-   console.log(user)
-  },[])
+    handle_home()
+  },[isSignedOut])
+  
+  const handle_home = async ()=>{
+    const {data} = await supabase.auth.getSession();
+    if(data.session){
+        setSignedOut(false)
+        Navigate('/home')
+    }
+    else{
+      setSignedOut(true)
+      Navigate('/')
+    }
+  }
+
   const close = () => setMobileOpen(false)
   const linkClass = ({isActive})=>`flex items-center gap-2 rounded-xl px-3 py-2 ${isActive? 'text-[var(--nb-green)] font-semibold bg-[var(--nb-green)]/5':'text-neutral-800 hover:text-[var(--nb-green)] hover:bg-neutral-50'}`
   const location = useLocation()
   const isLogin = location.pathname === '/login'
-  const isSignUp = location.pathname === '/signUp'
-  const isLanding = location.pathname === '/'
   return (
     <>
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-neutral-200">
         <nav className="container-px max-w-7xl mx-auto h-16 flex items-center justify-between">
-          <div className={`flex items-center gap-2 transition-opacity ${mobileOpen ? 'opacity-20' : 'opacity-100'}`}>
+          <div className={`flex items-center gap-2 cursor-pointer select-none transition-opacity ${mobileOpen ? 'opacity-20' : 'opacity-100'}`} onClick={handle_home}>
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--nb-green)] text-white font-bold">NN</span>
             <span className="font-display text-lg font-bold text-[var(--nb-green)]">NourishNet</span>
           </div>
-          {!isLogin && !isSignUp && !isLanding && (
+          { isSignedOut ? (
+            <Link
+              to="/signUp"
+              className="bg-green-600 border text-black/60 border-green-700/40 px-4 py-2 rounded-full font-semibold backdrop-blur-md hover:bg-green-600/30 transition-all flex items-center gap-2"
+            >
+              Join
+              <LogIn className="w-5 h-5" />
+            </Link>
+          ): (
             <>
               <div className="hidden sm:flex items-center gap-6 text-sm">
                 <NavLink to="/home" className={linkClass}><Home size={18}/> Home</NavLink>
@@ -43,6 +65,7 @@ function Navbar() {
                 <NavLink to="/profile" className={'bg-gray-500/40 rounded-full p-3'}>
                   <User/>
                 </NavLink>
+                
               </div>
               <button
                 className="sm:hidden p-2 rounded-xl border border-neutral-200"
@@ -80,6 +103,7 @@ function Navbar() {
             </div>
             <div className="p-2">
               <nav className="grid gap-1 text-sm">
+                <NavLink to="/profile" className={linkClass} onClick={close}><User size={18}/>User Profile</NavLink>
                 <NavLink to="/home" className={linkClass} onClick={close}><Home size={18}/> Home</NavLink>
                 <NavLink to="/donor" className={linkClass} onClick={close}><UtensilsCrossed size={18}/> Donor</NavLink>
                 <NavLink to="/ngo" className={linkClass} onClick={close}><HandHeart size={18}/> NGO</NavLink>

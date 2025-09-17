@@ -6,12 +6,14 @@ const Context = createContext();
 export const Context_porvider = ({ children }) => {
   const [loading, setloading] = useState(false);
   const [user, setuser] = useState(null);
-
+  const [isSignedOut,setSignedOut] = useState(true)
+  
+  
   const values = {
     user,
     setuser,
     loading,
-    setloading,
+    setloading,isSignedOut,setSignedOut
   };
   return <Context.Provider value={values}>{children}</Context.Provider>;
 };

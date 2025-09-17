@@ -129,13 +129,13 @@ export default function HomePage(){
               </div>
 
               <div className="flex items-start gap-2 text-sm">
-                <input id="agree" type="checkbox" required className="mt-1 h-4 w-4 rounded border-neutral-300" />
+                <input id="agree" type="checkbox" required className="mt-1 h-4 w-4 rounded border-neutral-300 cursor-pointer" />
                 <label htmlFor="agree" className="text-neutral-700">I agree to the terms and understand this is a charitable donation.</label>
               </div>
 
               <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={()=>setDonateOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Cancel</button>
-                <button type="submit" className="rounded-xl bg-[var(--nb-green)] text-white px-5 py-2 text-sm font-semibold">Submit</button>
+                <button type="button" onClick={()=>setDonateOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm cursor-pointer">Cancel</button>
+                <button type="submit" className="rounded-xl bg-[var(--nb-green)] text-white px-5 py-2 text-sm font-semibold cursor-pointer">Submit</button>
               </div>
             </form>
           </div>

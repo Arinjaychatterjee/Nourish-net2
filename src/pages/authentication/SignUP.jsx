@@ -23,11 +23,8 @@ export default function SignUp() {
             emailRedirectTo:`${window.location.origin}/login?verified=true`
           }
         });
-  
-        if (supabasedata ) {
-          navigate("/home");
-          console.log(data);
-        }
+        
+        //redirect to a loading state 
       } catch (error) {
         console.log(error);
       }
@@ -76,10 +73,10 @@ export default function SignUp() {
               required
             />
           </div>
-          <Link to='/login'> Already have an account?</Link>
+          <Link to='/login' className="hover:text-green-500"> Already have an account?</Link>
           <button
             type="submit"
-            className="mt-2 rounded-xl bg-[var(--nb-green)] text-white px-4 py-2 text-sm font-semibold"
+            className="mt-2 rounded-xl bg-[var(--nb-green)] text-white px-4 py-2 text-sm font-semibold cursor-pointer"
           >
             Submit
           </button>
