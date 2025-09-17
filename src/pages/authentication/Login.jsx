@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import supabase from "../../config/supabase";
 import { toast } from "react-toastify";
+import { Global_Context } from "../../Context/ContextProvider";
 
 export default function Log_in() {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [searchParams] = useSearchParams();
-  
+  const {setSignedOut} = Global_Context()
   useEffect(() => {
     if (searchParams.get("verified") === "true") {
       toast.success("✅ Your email is verified! You can now log in.");
@@ -24,8 +25,8 @@ export default function Log_in() {
         });
 
         if (supabasedata) {
-          navigate("/");
-          console.log(data);
+          setSignedOut(false)
+          navigate("/home");
         }
       } catch (error) {
         console.log(error);
@@ -63,10 +64,10 @@ export default function Log_in() {
               required
             />
           </div>
-          <Link to='/signUp'>create accout and sign up</Link>
+          <Link to='/signUp' className="hover:text-green-500">Create account and sign up</Link>
           <button
             type="submit"
-            className="mt-2 rounded-xl bg-[var(--nb-green)] text-white px-4 py-2 text-sm font-semibold"
+            className="mt-2 rounded-xl bg-[var(--nb-green)] text-white px-4 py-2 text-sm font-semibold cursor-pointer"
           >
             Log in
           </button>
