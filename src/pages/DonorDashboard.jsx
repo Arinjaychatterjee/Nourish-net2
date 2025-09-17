@@ -84,12 +84,12 @@ export default function DonorDashboard(){
       {/* 90-second donation modal (3-step) */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
-          <div className="w-full sm:max-w-lg rounded-2xl bg-white shadow-lg">
+          <div className="w-full sm:max-w-lg rounded-2xl bg-white shadow-lg max-h-[90vh] flex flex-col">
             <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
               <div className="font-display font-bold">90-Second Donation</div>
               <button onClick={()=>setOpen(false)} className="text-neutral-500 hover:text-neutral-800">✕</button>
             </div>
-            <div className="p-5 grid gap-4">
+            <div className="p-5 grid gap-4 overflow-y-auto">
               <div className="text-sm text-neutral-600">Step 1 · Food Details</div>
               <div className="grid gap-3">
                 <input value={form.foodName} onChange={updateField('foodName')} className={`rounded-xl border px-3 py-2 ${errors.foodName? 'border-red-500' : 'border-neutral-300'}`} placeholder="Food name (e.g., Veg Pulao)"/>

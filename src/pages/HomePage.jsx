@@ -57,7 +57,7 @@ export default function HomePage(){
       {/* Donation Modal */}
       {donateOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
-          <div className="w-full sm:max-w-2xl rounded-2xl bg-white shadow-lg">
+          <div className="w-full sm:max-w-2xl rounded-2xl bg-white shadow-lg max-h-[90vh] flex flex-col">
             <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
               <div>
                 <div className="font-display text-lg font-bold">Enter Donation Details</div>
@@ -65,7 +65,7 @@ export default function HomePage(){
               </div>
               <button onClick={()=>setDonateOpen(false)} className="h-9 w-9 rounded-lg border border-neutral-200 flex items-center justify-center text-lg text-neutral-600 hover:text-neutral-900" aria-label="Close">✕</button>
             </div>
-            <form className="p-6 grid gap-5" onSubmit={submitDonation}>
+            <form className="p-6 grid gap-5 overflow-y-auto" onSubmit={submitDonation}>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <label className="text-sm font-medium text-neutral-800">Full Name</label>
