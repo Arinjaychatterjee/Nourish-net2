@@ -1,4 +1,5 @@
 // src/pages/learnmore.jsx
+import { ArrowBigLeft, ArrowBigLeftIcon, ArrowLeft, Backpack } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -38,9 +39,9 @@ const LearnMore = () => {
 
             <Link
               to="/"
-              className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md"
+              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 flex w-fit rounded-3xl gap-2"
             >
-              Back to Landing Page
+              <ArrowLeft/> Landing Page
             </Link>
           </div>
         </div>
