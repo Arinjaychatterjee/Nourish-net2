@@ -82,7 +82,7 @@ function Navbar() {
       </header>
 
       {/* Mobile sidebar / shutter */}
-      {!isLogin && !isSignUp && !isLanding && (
+      {!isLogin && (
         <div className={`sm:hidden fixed inset-0 z-50 ${mobileOpen ? '' : 'pointer-events-none'}`}>
           {/* Overlay */}
           <div

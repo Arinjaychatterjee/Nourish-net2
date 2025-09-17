@@ -34,11 +34,11 @@ export default function SignUp() {
   return (
     <div className="container-px max-w-7xl mx-auto py-10">
       <div className="max-w-md mx-auto rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <h1 className="font-display text-2xl font-bold text-center">Login</h1>
+        <h1 className="font-display text-2xl font-bold text-center">Sign Up</h1>
         <form className="mt-6 grid gap-4" onSubmit={onSubmit}>
           <div className="grid gap-2">
             <label className="text-sm font-medium text-neutral-800">
-              Name / ID
+              Name 
             </label>
             <input
               value={name}
