@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../config/supabase";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -23,8 +24,15 @@ export default function SignUp() {
             emailRedirectTo:`${window.location.origin}/login?verified=true`
           }
         });
-        
-        //redirect to a loading state 
+        if(supabasedata){
+          setName('')
+          setemail('')
+          setPassword('')
+          toast('Verification email sent! check your email')
+          setTimeout(() => {
+            navigate('/')
+          }, 3000);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -33,6 +41,7 @@ export default function SignUp() {
 
   return (
     <div className="container-px max-w-7xl mx-auto py-10">
+      <ToastContainer />
       <div className="max-w-md mx-auto rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
         <h1 className="font-display text-2xl font-bold text-center">Sign Up</h1>
         <form className="mt-6 grid gap-4" onSubmit={onSubmit}>
