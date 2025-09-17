@@ -246,7 +246,7 @@ export default function HomePage(){
       </section>
 
       {/* Live Map (stylized placeholder) */}
-      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16 mb-1">
+      <section className="container-px max-w-7xl mx-auto mt-12 sm:mt-16 mb-1 z-1 relative">
         <MapComp/>
       </section>
     </div>
