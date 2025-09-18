@@ -1,6 +1,6 @@
 import { Award, PlusCircle, Trophy, Clock } from 'lucide-react'
 import { useState } from 'react'
-import { supabase } from "../config/supabaseclient.js";
+import supabase from '../config/supabase.js'
 
 
 export default function DonorDashboard(){
@@ -39,19 +39,18 @@ export default function DonorDashboard(){
     if(!validate()) return
 
     const { data, error } = await supabase
-      .from("donations")
+      .from("Donors")
       .insert([
         {
           food_name: form.foodName,
-          quantity: form.quantity,
           food_type: form.foodType,
+          quantity: form.quantity,
           notes: form.notes,
           pickup_location: form.pickupLocation,
           ready_by: form.readyBy,
           best_before: form.bestBefore,
         },
       ])
-
     if (error) {
       console.error("Error inserting donation:", error)
       alert("Something went wrong!")
