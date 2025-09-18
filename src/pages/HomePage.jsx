@@ -91,14 +91,14 @@ export default function HomePage(){
           </div>
         </div>
       </section>
-      
+
       {/* donation form */}
       {donateOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
           <div className="w-full sm:max-w-lg rounded-2xl bg-white shadow-lg max-h-[90vh] flex flex-col">
             <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
               <div className="font-display font-bold">90-Second Donation</div>
-              <button onClick={()=>setOpen(false)} className="text-neutral-500 hover:text-neutral-800">✕</button>
+              <button onClick={()=>setDonateOpen(false)} className="text-neutral-500 hover:text-neutral-800">✕</button>
             </div>
             <div className="p-5 grid gap-4 overflow-y-auto">
               <div className="text-sm text-neutral-600">Step 1 · Food Details</div>
@@ -133,7 +133,7 @@ export default function HomePage(){
                 We will notify nearby NGOs and Food Runners instantly.
               </div>
               <div className="flex justify-end gap-2 pt-2">
-                <button onClick={()=>setOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Cancel</button>
+                <button onClick={()=>setDonateOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Cancel</button>
                 <button onClick={onPublish} className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold">Publish Donation</button>
               </div>
             </div>
