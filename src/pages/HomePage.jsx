@@ -1,24 +1,65 @@
 import { PlayCircle, Leaf, Truck, HandHeart, MapPin, User, ShieldCheck, Eye, Zap } from 'lucide-react'
 import { useState } from 'react'
 import MapComp from '../components/MapComp'
+import supabase from '../config/supabase'
 
 export default function HomePage(){
   const [donateOpen, setDonateOpen] = useState(false)
-  const [amount, setAmount] = useState('')
-  const [note, setNote] = useState('')
   const [confirmOpen, setConfirmOpen] = useState(false)
 
-  const openDonation = (e) => {
-    e.preventDefault()
-    setDonateOpen(true)
+  const [form, setForm] = useState({
+      foodName: '',
+      quantity: '',
+      foodType: '',
+      pickupLocation: '',
+      readyBy: '',
+      bestBefore: '',
+      notes: '',
+    })
+  const [errors, setErrors] = useState({}) 
+  const updateField = (field) => (e) => {
+    setForm(prev => ({...prev, [field]: e.target.value}))
+    setErrors(prev => ({...prev, [field]: ''}))
   }
 
-  const submitDonation = (e) => {
-    e.preventDefault()
+  const validate = () => {
+    const next = {}
+    if(!form.foodName.trim()) next.foodName = 'Food name is required'
+    const qty = Number(form.quantity)
+    if(!form.quantity || Number.isNaN(qty) || qty <= 0) next.quantity = 'Enter a valid quantity'
+    if(!form.foodType.trim()) next.foodType = 'Food type is required'
+    if(!form.pickupLocation.trim()) next.pickupLocation = 'Pickup location is required'
+    if(!form.readyBy.trim()) next.readyBy = 'Ready by time is required'
+    if(!form.bestBefore.trim()) next.bestBefore = 'Best before time is required'
+    setErrors(next)
+    return Object.keys(next).length === 0
+  }
+
+  const onPublish = async () => {
+    if(!validate()) return
+
+    const { data, error } = await supabase
+      .from("Donors")
+      .insert([
+        {
+          food_name: form.foodName,
+          food_type: form.foodType,
+          quantity: form.quantity,
+          notes: form.notes,
+          pickup_location: form.pickupLocation,
+          ready_by: form.readyBy,
+          best_before: form.bestBefore,
+        },
+      ])
+    if (error) {
+      console.error("Error inserting donation:", error)
+      alert("Something went wrong!")
+      return
+    }
     setDonateOpen(false)
     setConfirmOpen(true)
   }
-
+  
   return (
     <div className="">
       {/* Hero */}
@@ -37,107 +78,65 @@ export default function HomePage(){
               <span className="text-amber-600">✨</span>
             </div>
             <div className="mt-6 flex gap-3">
-              <a href="#donate" onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nb-green)]">Donate Now</a>
+              <a href="#donate" onClick={()=>setDonateOpen(!donateOpen)} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nb-green)]">Donate Now</a>
               <a href="#how" className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 bg-white text-neutral-900 px-5 py-3 text-sm font-semibold hover:bg-neutral-50">
                 <PlayCircle className="mr-2" size={18}/> How it works
               </a>
             </div>
           </div>
           <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-red-200">
-            {/* <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster="/public/kolkata.jpg">
-              <source src="" type="video/mp4" />
-            </video> */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent">
               <img src="/homepage_banner.png" alt="homepagebanner" className='w-full h-full object-cover'/>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Donation Modal */}
+      
+      {/* donation form */}
       {donateOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
-          <div className="w-full sm:max-w-2xl rounded-2xl bg-white shadow-lg max-h-[90vh] flex flex-col">
-            <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
-              <div>
-                <div className="font-display text-lg font-bold">Enter Donation Details</div>
-                <div className="text-sm text-neutral-600">Share a few details to help us process your donation.</div>
-              </div>
-              <button onClick={()=>setDonateOpen(false)} className="h-9 w-9 rounded-lg border border-neutral-200 flex items-center justify-center text-lg text-neutral-600 hover:text-neutral-900" aria-label="Close">✕</button>
+          <div className="w-full sm:max-w-lg rounded-2xl bg-white shadow-lg max-h-[90vh] flex flex-col">
+            <div className="p-5 border-b border-neutral-200 flex items-center justify-between">
+              <div className="font-display font-bold">90-Second Donation</div>
+              <button onClick={()=>setOpen(false)} className="text-neutral-500 hover:text-neutral-800">✕</button>
             </div>
-            <form className="p-6 grid gap-5 overflow-y-auto" onSubmit={submitDonation}>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Full Name</label>
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Your name" required />
+            <div className="p-5 grid gap-4 overflow-y-auto">
+              <div className="text-sm text-neutral-600">Step 1 · Food Details</div>
+              <div className="grid gap-3">
+                <input value={form.foodName} onChange={updateField('foodName')} className={`rounded-xl border px-3 py-2 ${errors.foodName? 'border-red-500' : 'border-neutral-300'}`} placeholder="Food name (e.g., Veg Pulao)"/>
+                {errors.foodName && <div className="text-xs text-red-600">{errors.foodName}</div>}
+                <div className="grid grid-cols-2 gap-3">
+                  <input value={form.quantity} onChange={updateField('quantity')} className={`rounded-xl border px-3 py-2 ${errors.quantity? 'border-red-500' : 'border-neutral-300'}`} placeholder="Quantity (servings)"/>
+                  <input value={form.foodType} onChange={updateField('foodType')} className={`rounded-xl border px-3 py-2 ${errors.foodType? 'border-red-500' : 'border-neutral-300'}`} placeholder="Food type (veg/non-veg)"/>
                 </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Email</label>
-                  <input type="email" className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="you@example.com" required />
-                </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Phone</label>
-                  <input type="tel" className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="+91 XXXXX XXXXX" />
-                </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">City</label>
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Kolkata" />
+                {errors.quantity && <div className="text-xs text-red-600">{errors.quantity}</div>}
+                {errors.foodType && <div className="text-xs text-red-600">{errors.foodType}</div>}
+                <textarea value={form.notes} onChange={updateField('notes')} className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="Allergens/Notes"></textarea>
+              </div>
+              <div className="text-sm text-neutral-600">Step 2 · Logistics</div>
+              <div className="grid gap-3">
+                <input value={form.pickupLocation} onChange={updateField('pickupLocation')} className={`rounded-xl border px-3 py-2 ${errors.pickupLocation? 'border-red-500' : 'border-neutral-300'}`} placeholder="Pickup location"/>
+                <div className="grid grid-cols-2 gap-3">
+                  <input value={form.readyBy} onChange={updateField('readyBy')} className={`rounded-xl border px-3 py-2 ${errors.readyBy? 'border-red-500' : 'border-neutral-300'}`} placeholder="Ready by (time)"/>
+                  <input value={form.bestBefore} onChange={updateField('bestBefore')} className={`rounded-xl border px-3 py-2 ${errors.bestBefore? 'border-red-500' : 'border-neutral-300'}`} placeholder="Best before (time)"/>
                 </div>
               </div>
-
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800 ">Amount (INR)</label>
-                  <input value={amount} onChange={(e)=>setAmount(e.target.value)} type="number" min="1" required className="rounded-xl border border-neutral-300 px-3 py-2 sm:w-45" placeholder="e.g., 500" />
+              {(errors.pickupLocation || errors.readyBy || errors.bestBefore) && (
+                <div className="text-xs text-red-600">
+                  {errors.pickupLocation && <div>{errors.pickupLocation}</div>}
+                  {errors.readyBy && <div>{errors.readyBy}</div>}
+                  {errors.bestBefore && <div>{errors.bestBefore}</div>}
                 </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Frequency</label>
-                  <select className="rounded-xl border border-neutral-300 px-3 py-2">
-                    <option>One-time</option>
-                    <option>Monthly</option>
-                    <option>Quarterly</option>
-                  </select>
-                </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Purpose</label>
-                  <select className="rounded-xl border border-neutral-300 px-3 py-2">
-                    <option>Meals for Today</option>
-                    <option>Logistics Support</option>
-                    <option>General Fund</option>
-                  </select>
-                </div>
+              )}
+              <div className="text-sm text-neutral-600">Step 3 · Confirm</div>
+              <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3 text-sm text-neutral-700">
+                We will notify nearby NGOs and Food Runners instantly.
               </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">Payment Method</label>
-                  <select className="rounded-xl border border-neutral-300 px-3 py-2">
-                    <option>UPI</option>
-                    <option>Card</option>
-                    <option>Net Banking</option>
-                  </select>
-                </div>
-                <div className="grid gap-2">
-                  <label className="text-sm font-medium text-neutral-800">PAN (optional)</label>
-                  <input className="rounded-xl border border-neutral-300 px-3 py-2" placeholder="ABCDE1234F" />
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <label className="text-sm font-medium text-neutral-800">Message (optional)</label>
-                <textarea value={note} onChange={(e)=>setNote(e.target.value)} className="rounded-xl border border-neutral-300 px-3 py-2" rows="3" placeholder="Any instructions or dedication"></textarea>
-              </div>
-
-              <div className="flex items-start gap-2 text-sm">
-                <input id="agree" type="checkbox" required className="mt-1 h-4 w-4 rounded border-neutral-300 cursor-pointer" />
-                <label htmlFor="agree" className="text-neutral-700">I agree to the terms and understand this is a charitable donation.</label>
-              </div>
-
               <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={()=>setDonateOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm cursor-pointer">Cancel</button>
-                <button type="submit" className="rounded-xl bg-[var(--nb-green)] text-white px-5 py-2 text-sm font-semibold cursor-pointer">Submit</button>
+                <button onClick={()=>setOpen(false)} className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Cancel</button>
+                <button onClick={onPublish} className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold">Publish Donation</button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
@@ -239,7 +238,7 @@ export default function HomePage(){
           <h3 className="font-display text-xl sm:text-2xl font-bold">Make a Difference with Every Donation</h3>
           <p className="text-neutral-700 mt-2 max-w-2xl mx-auto">Join our community to reduce food waste and serve more meals across Kolkata.</p>
           <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button onClick={openDonation} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90">Donate Now</button>
+            <button onClick={()=>setDonateOpen(!donateOpen)} className="inline-flex items-center justify-center rounded-2xl bg-[var(--nb-green)] text-white px-5 py-3 text-sm font-semibold shadow-sm hover:opacity-90">Donate Now</button>
           </div>
         </div>
       </section>
