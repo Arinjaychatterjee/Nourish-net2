@@ -6,9 +6,12 @@ import supabase from "../config/supabase";
 export default function NGODashboard() {
   const [selected, setSelected] = useState(null);
   const [donations, setdonations] = useState([]);
+  const [selected, setSelected] = useState(null)
+  const [claimedIds, setClaimedIds] = useState([])
+  const [toast, setToast] = useState(null)[]
+  
   const fetch_donations = async () => {
     const { data, error } = await supabase.from("Donors").select("*");
-
     if (data) {
       setdonations(data);
       // data structure update the select option with the keys from shown in the example below >
@@ -31,6 +34,16 @@ export default function NGODashboard() {
   useEffect(() => {
     fetch_donations();
   }, []);
+
+  const visibleDonations = donations.filter(d => !claimedIds.includes(d.id))
+
+  const onClaim = () => {
+    if(!selected) return
+    setClaimedIds(prev => prev.includes(selected.id) ? prev : [...prev, selected.id])
+    setSelected(null)
+    setToast('Donation accepted')
+    window.setTimeout(()=> setToast(null), 2500)
+  }
 
   return (
     <div className="container-px max-w-7xl mx-auto py-6">
@@ -65,6 +78,9 @@ export default function NGODashboard() {
                 onClick={() => setSelected(d)}
                 className="w-full text-left hover:bg-neutral-50 rounded-xl p-3 cursor-pointer"
               >
+            {visibleDonations.map(d=> (
+              <button key={d.id} onClick={()=>setSelected(d)} className="w-full text-left hover:bg-neutral-50 rounded-xl p-3 cursor-pointer">
+
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-semibold">{d.food_name}</div>
@@ -104,9 +120,7 @@ export default function NGODashboard() {
                 Prepared by verified donor. Properly packed and labeled.
               </div>
             </div>
-            <button className="mt-4 w-full rounded-2xl bg-[var(--nb-orange)] text-white px-4 py-3 text-sm font-semibold cursor-pointer">
-              CLAIM DONATION
-            </button>
+            <button onClick={onClaim} className="mt-4 w-full rounded-2xl bg-[var(--nb-orange)] text-white px-4 py-3 text-sm font-semibold cursor-pointer">CLAIM DONATION</button>
           </div>
         </div>
       )}
@@ -137,6 +151,14 @@ export default function NGODashboard() {
           ))}
         </div>
       </div>
+      {/* App toast */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[60]">
+          <div className="rounded-xl bg-[var(--nb-green)] text-white px-4 py-3 shadow-lg">
+            <div className="font-semibold text-sm">{toast}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
