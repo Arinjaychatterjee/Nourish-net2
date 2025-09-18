@@ -1,4 +1,4 @@
-import { MapPin, Filter, Search, ChevronRight } from "lucide-react";
+import { Filter, Search, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import MapComp from "../components/MapComp";
 import supabase from "../config/supabase";
@@ -6,9 +6,8 @@ import supabase from "../config/supabase";
 export default function NGODashboard() {
   const [selected, setSelected] = useState(null);
   const [donations, setdonations] = useState([]);
-  const [selected, setSelected] = useState(null)
-  const [claimedIds, setClaimedIds] = useState([])
-  const [toast, setToast] = useState(null)[]
+  const [claimedIds, setClaimedIds] = useState([]);
+  const [toast, setToast] = useState(null);
   
   const fetch_donations = async () => {
     const { data, error } = await supabase.from("Donors").select("*");
@@ -35,7 +34,7 @@ export default function NGODashboard() {
     fetch_donations();
   }, []);
 
-  const visibleDonations = donations.filter(d => !claimedIds.includes(d.id))
+  const visibleDonations = donations.filter((d) => !claimedIds.includes(d.id));
 
   const onClaim = () => {
     if(!selected) return
@@ -72,15 +71,12 @@ export default function NGODashboard() {
             />
           </div>
           <div className="mt-3 divide-y divide-neutral-200">
-            {donations.map((d) => (
+            {visibleDonations.map((d) => (
               <button
                 key={d.id}
                 onClick={() => setSelected(d)}
                 className="w-full text-left hover:bg-neutral-50 rounded-xl p-3 cursor-pointer"
               >
-            {visibleDonations.map(d=> (
-              <button key={d.id} onClick={()=>setSelected(d)} className="w-full text-left hover:bg-neutral-50 rounded-xl p-3 cursor-pointer">
-
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-semibold">{d.food_name}</div>
@@ -90,9 +86,7 @@ export default function NGODashboard() {
                   </div>
                   <ChevronRight className="text-neutral-400" />
                 </div>
-                <div className="text-xs text-neutral-600 mt-1">
-                  {d.ready_by}
-                </div>
+                <div className="text-xs text-neutral-600 mt-1">{d.ready_by}</div>
               </button>
             ))}
           </div>
@@ -104,7 +98,7 @@ export default function NGODashboard() {
         <div className="fixed inset-0 z-50 flex justify-end bg-black/40">
           <div className="h-full w-full sm:max-w-md bg-white shadow-xl p-5">
             <div className="flex items-center justify-between">
-              <div className="font-display font-bold">{selected.title}</div>
+              <div className="font-display font-bold">{selected.food_name}</div>
               <button
                 onClick={() => setSelected(null)}
                 className="text-neutral-500 hover:text-neutral-800 cursor-pointer"
@@ -113,9 +107,9 @@ export default function NGODashboard() {
               </button>
             </div>
             <div className="mt-3 text-sm text-neutral-700">
-              <div>{selected.qty}</div>
-              <div className="mt-1">Distance: {selected.distance}</div>
-              <div className="mt-1">Pickup: {selected.time}</div>
+              <div>Quantity: {selected.quantity}</div>
+              <div className="mt-1">Pickup location: {selected.pickup_location}</div>
+              <div className="mt-1">Ready by: {selected.ready_by}</div>
               <div className="mt-3 rounded-xl bg-neutral-50 border border-neutral-200 p-3">
                 Prepared by verified donor. Properly packed and labeled.
               </div>
