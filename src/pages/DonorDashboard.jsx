@@ -39,6 +39,11 @@ export default function DonorDashboard(){
   const onPublish = async () => {
     if(!validate()) return
 
+    // Convert time format from HH:MM to full datetime for database
+    const today = new Date().toISOString().split('T')[0] // Get today's date in YYYY-MM-DD format
+    const readyByDateTime = `${today}T${form.readyBy}:00`
+    const bestBeforeDateTime = `${today}T${form.bestBefore}:00`
+
     const { data, error } = await supabase
       .from("Donors")
       .insert([
@@ -48,8 +53,8 @@ export default function DonorDashboard(){
           quantity: form.quantity,
           notes: form.notes,
           pickup_location: form.pickupLocation,
-          ready_by: form.readyBy,
-          best_before: form.bestBefore,
+          ready_by: readyByDateTime,
+          best_before: bestBeforeDateTime,
         },
       ])
     if (error) {
@@ -130,8 +135,22 @@ export default function DonorDashboard(){
               <div className="grid gap-3">
                 <input value={form.pickupLocation} onChange={updateField('pickupLocation')} className={`rounded-xl border px-3 py-2 ${errors.pickupLocation? 'border-red-500' : 'border-neutral-300'}`} placeholder="Pickup location"/>
                 <div className="grid grid-cols-2 gap-3">
-                  <input value={form.readyBy} onChange={updateField('readyBy')} className={`rounded-xl border px-3 py-2 ${errors.readyBy? 'border-red-500' : 'border-neutral-300'}`} placeholder="Ready by (time)"/>
-                  <input value={form.bestBefore} onChange={updateField('bestBefore')} className={`rounded-xl border px-3 py-2 ${errors.bestBefore? 'border-red-500' : 'border-neutral-300'}`} placeholder="Best before (time)"/>
+                  <input 
+                    type="time" 
+                    value={form.readyBy} 
+                    onChange={updateField('readyBy')} 
+                    className={`rounded-xl border px-3 py-2 ${errors.readyBy? 'border-red-500' : 'border-neutral-300'}`} 
+                    placeholder="Ready by (time)"
+                    step="60"
+                  />
+                  <input 
+                    type="time" 
+                    value={form.bestBefore} 
+                    onChange={updateField('bestBefore')} 
+                    className={`rounded-xl border px-3 py-2 ${errors.bestBefore? 'border-red-500' : 'border-neutral-300'}`} 
+                    placeholder="Best before (time)"
+                    step="60"
+                  />
                 </div>
               </div>
               {(errors.pickupLocation || errors.readyBy || errors.bestBefore) && (

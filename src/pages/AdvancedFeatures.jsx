@@ -1,7 +1,9 @@
 import { Bell, Sprout, Weight } from 'lucide-react'
+import { useState } from 'react'
 import assets from '../assets/assets'
 
 export default function AdvancedFeatures(){
+  const [toast, setToast] = useState(null)
   const ingredients = [
     {
       item: 'Rice',
@@ -42,8 +44,24 @@ export default function AdvancedFeatures(){
             <div className="font-semibold">Heads up!</div>
             <p className="text-neutral-700 text-sm mt-1">Based on past rainy Mondays, you might have extra Dal tonight. Tap to pre-schedule a donation.</p>
             <div className="mt-3 flex gap-2">
-              <button className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold">Pre-schedule</button>
-              <button className="rounded-xl border border-neutral-300 px-4 py-2 text-sm">Remind me later</button>
+              <button 
+                onClick={() => {
+                  setToast('Order is scheduled')
+                  setTimeout(() => setToast(null), 2500)
+                }}
+                className="rounded-xl bg-[var(--nb-orange)] text-white px-4 py-2 text-sm font-semibold"
+              >
+                Pre-schedule
+              </button>
+              <button 
+                onClick={() => {
+                  setToast('We will remind you later tonight')
+                  setTimeout(() => setToast(null), 2500)
+                }}
+                className="rounded-xl border border-neutral-300 px-4 py-2 text-sm"
+              >
+                Remind me later
+              </button>
             </div>
           </div>
         </div>
@@ -64,11 +82,28 @@ export default function AdvancedFeatures(){
               </div>
               <div className="mt-2 font-semibold text-[#4a432b]">{item.item}</div>
               <div className="text-sm text-[#6b613f]">Rs {item.price}</div>
-              <button className="mt-2 w-full rounded-xl border border-[#d9d2c4] px-3 py-2 text-sm hover:bg-[#f4efe5] cursor-pointer" >View</button>
+              <button 
+                onClick={() => {
+                  setToast('Order is added')
+                  setTimeout(() => setToast(null), 2500)
+                }}
+                className="mt-2 w-full rounded-xl border border-[#d9d2c4] px-3 py-2 text-sm hover:bg-[#f4efe5] cursor-pointer"
+              >
+                Add to cart
+              </button>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[60]">
+          <div className="rounded-xl bg-[var(--nb-green)] text-white px-4 py-3 shadow-lg">
+            <div className="font-semibold text-sm">{toast}</div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

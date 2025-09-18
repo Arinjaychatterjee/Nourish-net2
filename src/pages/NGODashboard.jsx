@@ -8,6 +8,17 @@ export default function NGODashboard() {
   const [donations, setdonations] = useState([]);
   const [claimedIds, setClaimedIds] = useState([]);
   const [toast, setToast] = useState(null);
+
+  // Helper function to format datetime to time only (HH:MM)
+  const formatTimeOnly = (datetime) => {
+    if (!datetime) return '';
+    const date = new Date(datetime);
+    return date.toLocaleTimeString('en-GB', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
   
   const fetch_donations = async () => {
     const { data, error } = await supabase.from("Donors").select("*");
@@ -86,7 +97,7 @@ export default function NGODashboard() {
                   </div>
                   <ChevronRight className="text-neutral-400" />
                 </div>
-                <div className="text-xs text-neutral-600 mt-1">{d.ready_by}</div>
+                <div className="text-xs text-neutral-600 mt-1">{formatTimeOnly(d.ready_by)}</div>
               </button>
             ))}
           </div>
@@ -109,7 +120,7 @@ export default function NGODashboard() {
             <div className="mt-3 text-sm text-neutral-700">
               <div>Quantity: {selected.quantity}</div>
               <div className="mt-1">Pickup location: {selected.pickup_location}</div>
-              <div className="mt-1">Ready by: {selected.ready_by}</div>
+              <div className="mt-1">Ready by: {formatTimeOnly(selected.ready_by)}</div>
               <div className="mt-3 rounded-xl bg-neutral-50 border border-neutral-200 p-3">
                 Prepared by verified donor. Properly packed and labeled.
               </div>
