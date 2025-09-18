@@ -59,7 +59,7 @@ export default function AdvancedFeatures(){
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {ingredients.map((item,i) => (
             <div key={i} className="rounded-2xl border border-[#e9e2d3] bg-white p-4">
-              <div className="h-24 rounded-xl bg-red-500 overflow-hidden">
+              <div className="h-24 rounded-xl overflow-hidden">
                 <img src={item.banner} alt="rice" className='w-full h-full object-cover'/>
               </div>
               <div className="mt-2 font-semibold text-[#4a432b]">{item.item}</div>
